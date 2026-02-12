@@ -1,0 +1,23 @@
+We Will see recursive descent in pseudocode :
+
+a function parseProgram(){
+
+    program -> root node 
+    
+    then advance the nodes so the currentNode will point to first node...
+
+    while the currentNode is not EOF Node :
+        assume the statement is nil
+
+        If its a LET node -> statement = parse_let_statement
+        .
+        .
+        .
+
+        if statement is not nil:
+            Statements.push(statement)
+
+
+        advanceTokens()
+    return program
+}
