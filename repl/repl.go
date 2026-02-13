@@ -23,7 +23,7 @@ const BUDDHA_FACE = `
    Version 1 : 
    
    Birla Vishvakarma Mahavidyalaya
-   IT batch 2023-24(_Sem 3 Mini Project_)
+   IT batch 2023-24( Sem 6 Mini Project )
 
    Team : Rudra,Jagdish,Yug | Advisor : Dr Nilesh
    

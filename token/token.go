@@ -1,6 +1,6 @@
 /*
 
-The subset of the Monkey language we’re going to lex in our first step looks like this:
+The subset of the Monk language we’re going to lex in our first step looks like this:
 let five = 5;
 let ten = 10;
 let add = fn(x, y) {

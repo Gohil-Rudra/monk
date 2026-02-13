@@ -499,7 +499,7 @@ func TestCallExpression(t *testing.T) {
 	testInfixExpression(t, callExp.Arguments[2], 4, "+", 5)
 }
 
-// -------------------Helper functions interrelated---------------------
+// -------------------Helper functions interrelated-------------
 
 func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 	if s.TokenLiteral() != "let" {
