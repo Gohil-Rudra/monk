@@ -7,6 +7,30 @@ import (
 	"testing"
 )
 
+// String Testing
+
+func TestStringLiteral(t *testing.T) {
+	input := `"hello world";`
+	l := lexer_2.New(input)
+	p := New(l)
+	program := p.ParseProgram()
+
+	CheckParseErrors(p, t)
+
+	stmt := program.Statements[0].(*ast.ExpressionStatement)
+
+	literal, ok := stmt.Expression.(*ast.StringLiteral)
+
+	if !ok {
+		t.Fatalf("exp not *ast.StringLiteral got %T", stmt.Expression)
+	}
+
+	if literal.Value != "hello world" {
+		t.Errorf("literal.Value not %q , got %q", "hello world", literal.Value)
+	}
+
+}
+
 // Let Statement Testing
 func TestLetStatements(t *testing.T) {
 	tests := []struct {

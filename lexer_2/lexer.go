@@ -64,18 +64,22 @@ func (l *Lexer) NextToken() token.Token {
 	case '>':
 		tok = newToken(token.GT, l.ch)
 
+	case '"':
+		tok.Type = token.STRING
+		tok.Literal = l.readString()
+
 	case 0:
 		// tok = newToken(token.EOF, "") as "" is not a byte we will have to do...
 		tok.Type = token.EOF
 		tok.Literal = ""
 	default:
-		if isLetter(l.ch) {
+		if isLetter(l.ch) { // @ also considered
 			tok.Literal = l.readIdentifier()
-			tok.Type = token.IdentLookUp(tok.Literal) // @
+			tok.Type = token.IdentLookUp(tok.Literal)
 			return tok
 		} else if isDigit(l.ch) {
 			tok.Literal = l.readNumber()
-			tok.Type = token.INT // @
+			tok.Type = token.INT
 			return tok
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
@@ -83,6 +87,18 @@ func (l *Lexer) NextToken() token.Token {
 	}
 	l.readChar()
 	return tok
+}
+
+func (l *Lexer) readString() string {
+	pos := l.position + 1 // as we are standing at " <- here
+	for {
+		l.readChar()
+		// TODO : add support for \n and \t
+		if l.ch == '"' || l.ch == 0 {
+			break
+		}
+	}
+	return l.input[pos:l.position]
 }
 
 func (l *Lexer) peekChar() byte {

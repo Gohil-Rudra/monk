@@ -7,14 +7,55 @@ import (
 	"testing"
 )
 
+func TestStringComparison(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected bool
+	}{
+		{`"Hello" == "World"`, false},
+		{`"Hello" == "Hello"`, true},
+		{`("Hello" == "World") == false `, true},
+	}
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		testBooleanObject(t, evaluated, tt.expected)
+	}
+}
+
+func TestStringConcatenation(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{`"Hello " + "World"`, "Hello World"},
+	}
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		testStringObject(t, evaluated, tt.expected)
+	}
+}
+
+func TestStringLiteral(t *testing.T) {
+	input := `"hello world";`
+	evaluated := testEval(input)
+	str, ok := evaluated.(*object.String)
+	if !ok {
+		t.Fatalf("object is not string. got %T(%+v)", evaluated, evaluated)
+	}
+	if str.Value != "hello world" {
+		t.Errorf("String has wrong value. got %q", str.Value)
+	}
+
+}
+
 func TestFunctionApplication(t *testing.T) {
 	tests := []struct {
 		input    string
 		expected int64
 	}{
 		{"let identity = fn(x){x}; identity(5)", 5},
-		{"let identity = fn{return x;x*x};identity(5)", 5},
-		{"let double = fn{return x*2};double(4)", 8},
+		{"let identity = fn(x){return x;x*x};identity(5)", 5},
+		{"let double = fn(x){return x*2};double(4)", 8},
 	}
 
 	for _, tt := range tests {
@@ -251,4 +292,18 @@ func testBooleanObject(t *testing.T, obj object.Object, expected bool) bool {
 		return false
 	}
 	return true
+}
+
+func testStringObject(t *testing.T, obj object.Object, expected string) bool {
+	str, ok := obj.(*object.String)
+	if !ok {
+		t.Fatalf("Object is not String. got %T", obj)
+		return false
+	}
+	if str.Value != expected {
+		t.Errorf("String has wrong value. got=%q", str.Value)
+		return false
+	}
+	return true
+
 }

@@ -24,8 +24,9 @@ const (
 	EOF     = "EOF"
 
 	// IDENTIFIERS/VARIABLES + LITERALS
-	IDENT = "IDENT"
-	INT   = "INT"
+	IDENT  = "IDENT"
+	INT    = "INT"
+	STRING = "STRING"
 
 	//OPERATORS
 	ASSIGN  = "="

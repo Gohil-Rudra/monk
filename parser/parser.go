@@ -109,6 +109,8 @@ func New(l *lexer_2.Lexer) *Parser {
 	p.registerPrefix(token.IDENT, p.parseIdentifier)
 	// above we are storing the function and not the value so no ()
 	p.registerPrefix(token.INT, p.parseIntegerLiteral)
+	p.registerPrefix(token.STRING, p.parseStringLiteral)
+
 	p.registerPrefix(token.BANG, p.parsePrefixExpression)
 	p.registerPrefix(token.MINUS, p.parsePrefixExpression)
 
@@ -138,6 +140,9 @@ func (p *Parser) parseCallExpression(function ast.Expression) ast.Expression {
 	exp := &ast.CallExpression{Token: p.currToken, Function: function}
 	exp.Arguments = p.parseCallArguments()
 	return exp
+}
+func (p *Parser) parseStringLiteral() ast.Expression {
+	return &ast.StringLiteral{Token: p.currToken, Value: p.currToken.Literal}
 }
 
 func (p *Parser) parseCallArguments() []ast.Expression {
